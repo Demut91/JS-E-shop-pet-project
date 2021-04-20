@@ -1,22 +1,3 @@
-// const products = [
-//     {id: 1, title: 'Notebook', price: 2000},
-//     {id: 2, title: 'Mouse', price: 20},
-//     {id: 3, title: 'Keyboard', price: 200},
-//     {id: 4, title: 'Gamepad', price: 50},
-// ];
-// //Функция для формирования верстки каждого товара
-// const renderProduct = (title, price) =>
-//      `<div class="product-item">
-//                 <h3>${title}</h3>
-//                 <p>${price}</p>
-//                 <button class="buy-btn">Купить</button>
-//             </div>`
-// ;
-// const renderPage = list => document.querySelector('.products')
-// .innerHTML = list.map(item => renderProduct(item.title, item.price)).join('');
-
-// renderPage(products);
-
 class GoodsItem {
   constructor (title, price) {
     this.title = title;
@@ -28,6 +9,8 @@ class GoodsItem {
   }
 }
 
+//================================================================
+
 class GoodsList {
   constructor () {
     this.goods = [];
@@ -38,7 +21,7 @@ class GoodsList {
       {title: 'Socks', price: 50},
       {title: 'Hat', price: 200},
       {title: 'Jacket', price: 350},
-      {title: 'Shoes', price: 250},
+      {title: 'Shoes', price: 150},
     ];
   }
   render () {
@@ -50,16 +33,51 @@ class GoodsList {
     document.querySelector ('.products').innerHTML = listHtml;
   }
   calcSum () {
-    let arr = this.goods;
     let sum = 0;
-    for (let obj in arr) {
-        sum += arr[obj].price;
+    for (let obj in this.goods) {
+        sum += this.goods[obj].price;
       }
      return sum;
     }
   }
 
+//================================================================
+
 const list = new GoodsList ();
 list.fetchGoods ();
 list.render ();
 console.log(list.calcSum());
+
+//================================================================
+
+class Cart {
+	constructor () {
+    	if (Cart._instance) {
+      		return Cart._instance
+    	}
+	Cart._instance = this
+  	}
+
+	list = []                                   
+	sum = 0
+	adding (goodItem) {}
+    removing (goodItem) {}
+    render () {}
+}
+
+//================================================================ 
+
+class CartProduct {
+    addedToCart = false
+	_amount = 0
+
+    addingToCart () {
+        this.addedToCart = true
+        this._amount++
+    }
+    removingFromCart () {
+        if (this._amount > 0) {
+            this._amount--
+        } else this.addedToCart = false
+    }
+}
