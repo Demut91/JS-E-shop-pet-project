@@ -4,8 +4,8 @@ class GoodsItem {
     this.price = price;
   }
   render () {
-    return `<div class="product-item"><h3>${this.title}</h3>
-      <p>${this.price}</p><button class="buy-btn">Купить</button></div>`;
+    return `<div class="product-item"><h3 class="item-title">${this.title}</h3>
+      <p>${this.price}р.</p><button class="buy-btn">Купить</button></div>`;
   }
 }
 
@@ -60,7 +60,12 @@ class Cart {
 
 	list = []                                   
 	sum = 0
-	adding (goodItem) {}
+	adding (goodItem) {
+        this.sum = this.sum + GoodsItem.price
+        if (this.list.indexOf(goodItem) < 0) {       
+			this.list.push(goodItem)                  
+			}
+    }
     removing (goodItem) {}
     render () {}
 }
