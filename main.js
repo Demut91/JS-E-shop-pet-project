@@ -73,8 +73,9 @@ list.fetchGoods (() => {
 
 //================================================================
 
-class Cart {
+class Cart extends GoodsList {
   constructor () {
+    super();
     if (Cart._instance) {
       return Cart._instance;
     }
@@ -83,6 +84,7 @@ class Cart {
 
   list = [];
   sum = 0;
+
   adding (goodItem) {
     this.sum = this.sum + GoodsItem.price;
     if (this.list.indexOf (goodItem) < 0) {
@@ -95,7 +97,11 @@ class Cart {
 
 //================================================================
 
-class CartProduct {
+class CartProduct extends GoodsItem {
+  constructor() {
+    super();
+  }
+  
   addedToCart = false;
   _amount = 0;
 
