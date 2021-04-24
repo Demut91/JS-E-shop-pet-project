@@ -1,23 +1,24 @@
 const API_URL =
   'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-function makeGETRequest (url, callback) {
-  var xhr;
-
-  if (window.XMLHttpRequest) {
-    xhr = new XMLHttpRequest ();
-  } else if (window.ActiveXObject) {
-    xhr = new ActiveXObject ('Microsoft.XMLHTTP');
-  }
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      callback (xhr.responseText);
+function makeGETRequest (url) {
+  return new Promise ((resolve, reject) => {
+    let xhr;
+    if (window.XMLHttpRequest) {
+      xhr = new XMLHttpRequest ();
+    } else if (window.ActiveXObject) {
+      xhr = new ActiveXObject ('Microsoft.XMLHTTP');
     }
-  };
+   xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        resolve (xhr.responseText)
+      }//else reject ('ERROR');
+    };
 
-  xhr.open ('GET', url, true);
-  xhr.send ();
+    xhr.open ('GET', url, true);
+    xhr.send ();
+  });
+  
 }
 
 class GoodsItem {
@@ -37,12 +38,17 @@ class GoodsList {
   constructor () {
     this.goods = [];
   }
-  fetchGoods (cb) {
-    makeGETRequest (`${API_URL}/catalogData.json`, goods => {
-      this.goods = JSON.parse (goods);
-      cb ();
-    });
+
+  fetchGoods () {
+    return makeGETRequest (`${API_URL}/catalogData.json`) 
+      .then((goods) => {
+        this.goods = JSON.parse(goods);
+        console.log(this.goods)
+      });
   }
+      
+    
+
 
   render () {
     let listHtml = '';
@@ -65,17 +71,21 @@ class GoodsList {
 //================================================================
 
 const list = new GoodsList ();
-list.fetchGoods (() => {
-  list.render ();
-  console.log (list.calcSum ());
-});
+list.fetchGoods ()
+.then((goods) =>  list.render ())
+.then(() =>  console.log (list.calcSum ()))
+
+//.then(list.calcSum ());
+//list.render ();
+//console.log (list.calcSum ());
+
 
 
 //================================================================
 
 class Cart extends GoodsList {
   constructor () {
-    super();
+    super ();
     if (Cart._instance) {
       return Cart._instance;
     }
@@ -98,10 +108,10 @@ class Cart extends GoodsList {
 //================================================================
 
 class CartProduct extends GoodsItem {
-  constructor() {
-    super();
+  constructor () {
+    super ();
   }
-  
+
   addedToCart = false;
   _amount = 0;
 
