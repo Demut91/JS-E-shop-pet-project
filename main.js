@@ -12,9 +12,8 @@ function makeGETRequest (url) {
    xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         resolve (xhr.responseText)
-      }//else reject ('ERROR');
+      }// else reject ('ERROR');  если вернуть, всегда получаю ошибку, не знаю, почему
     };
-
     xhr.open ('GET', url, true);
     xhr.send ();
   });
@@ -41,15 +40,13 @@ class GoodsList {
 
   fetchGoods () {
     return makeGETRequest (`${API_URL}/catalogData.json`) 
-      .then((goods) => {
-        this.goods = JSON.parse(goods);
-        console.log(this.goods)
-      });
+      .then((goods) => {                     //плохо понимаю, что нужно передавать в .then. и в каких случаях 
+        this.goods = JSON.parse(goods);           //и как .then связывается с resolve-reject
+        console.log(this.goods)                   //100 раз перечитал методичку и все равно туго) сделал по примерам.
+      });                                     //может есть ещё какой-то способ врубиться в то, как это работает?)
   }
       
-    
-
-
+   
   render () {
     let listHtml = '';
     this.goods.forEach (good => {
@@ -72,8 +69,8 @@ class GoodsList {
 
 const list = new GoodsList ();
 list.fetchGoods ()
-.then((goods) =>  list.render ())
-.then(() =>  console.log (list.calcSum ()))
+.then((goods) =>  list.render ())           //не понимаю,  в каких случаях нужен аргумент для .then
+.then(() =>  console.log (list.calcSum ()))   //cделал кое-как, наполовину методом тыка, тяжело даются промисы)
 
 //.then(list.calcSum ());
 //list.render ();
@@ -85,17 +82,18 @@ list.fetchGoods ()
 
 class Cart extends GoodsList {
   constructor () {
-    super ();
-    if (Cart._instance) {
-      return Cart._instance;
+     if (Cart._instance) {          //скопипастил готовое решение, оч прошу объяснить, как это работает
+      return Cart._instance;        //и в каком направлении копать. 
     }
     Cart._instance = this;
   }
+  super ();
 
   list = [];
   sum = 0;
 
   adding (goodItem) {
+    CartProduct.addingToCart ()
     this.sum = this.sum + GoodsItem.price;
     if (this.list.indexOf (goodItem) < 0) {
       this.list.push (goodItem);
