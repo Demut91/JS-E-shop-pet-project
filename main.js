@@ -82,12 +82,13 @@ list.fetchGoods ()
 
 class Cart extends GoodsList {
   constructor () {
+    super ();
      if (Cart._instance) {          //скопипастил готовое решение, оч прошу объяснить, как это работает
       return Cart._instance;        //и в каком направлении копать. 
     }
     Cart._instance = this;
   }
-  super ();
+  
 
   list = [];
   sum = 0;
