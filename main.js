@@ -12,7 +12,7 @@ function makeGETRequest (url) {
    xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
         resolve (xhr.responseText)
-      }// else reject ('ERROR');  если вернуть, всегда получаю ошибку, не знаю, почему
+      }// else reject ('ERROR'); 
     };
     xhr.open ('GET', url, true);
     xhr.send ();
@@ -40,10 +40,10 @@ class GoodsList {
 
   fetchGoods () {
     return makeGETRequest (`${API_URL}/catalogData.json`) 
-      .then((goods) => {                     //плохо понимаю, что нужно передавать в .then. и в каких случаях 
-        this.goods = JSON.parse(goods);           //и как .then связывается с resolve-reject
-        console.log(this.goods)                   //100 раз перечитал методичку и все равно туго) сделал по примерам.
-      });                                     //может есть ещё какой-то способ врубиться в то, как это работает?)
+      .then((goods) => {                    
+        this.goods = JSON.parse(goods);          
+        console.log(this.goods)                  
+      });                                     
   }
       
    
@@ -69,9 +69,8 @@ class GoodsList {
 
 const list = new GoodsList ();
 list.fetchGoods ()
-.then((goods) =>  list.render ())           //не понимаю,  в каких случаях нужен аргумент для .then
-.then(() =>  console.log (list.calcSum ()))   //cделал кое-как, наполовину методом тыка, тяжело даются промисы)
-
+.then((goods) =>  list.render ())           
+.then(() =>  console.log (list.calcSum ()))   
 //.then(list.calcSum ());
 //list.render ();
 //console.log (list.calcSum ());
@@ -83,8 +82,8 @@ list.fetchGoods ()
 class Cart extends GoodsList {
   constructor () {
     super ();
-     if (Cart._instance) {          //скопипастил готовое решение, оч прошу объяснить, как это работает
-      return Cart._instance;        //и в каком направлении копать. 
+     if (Cart._instance) {          
+      return Cart._instance;        
     }
     Cart._instance = this;
   }
