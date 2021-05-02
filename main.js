@@ -9,25 +9,25 @@ function makeGETRequest (url) {
     } else if (window.ActiveXObject) {
       xhr = new ActiveXObject ('Microsoft.XMLHTTP');
     }
-   xhr.onreadystatechange = function () {
+    xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
-        if (xhr.status === 200) resolve(xhr.responseText)
-      } // else reject ('ERROR'); 
+        if (xhr.status === 200) resolve (xhr.responseText);
+      } // else reject ('ERROR');
     };
     xhr.open ('GET', url, true);
     xhr.send ();
-  })
-  
+  });
 }
 
 class GoodsItem {
-  constructor (product_name, price) {
+  constructor (product_name, price, id_product) {
     this.product_name = product_name;
+    this.id_product = id_product;
     this.price = price;
   }
   render () {
     return `<div class="product-item"><h3 class="item-title">${this.product_name}</h3>
-      <p>${this.price}р.</p><button class="buy-btn">Купить</button></div>`;
+      <p>${this.price}р.</p><button id="${this.id_product}">Добавить</button></div>`;
   }
 }
 
@@ -36,20 +36,32 @@ class GoodsItem {
 class GoodsList {
   constructor () {
     this.goods = [];
+    this.filteredGoods = [];
   }
 
   fetchGoods () {
-    return makeGETRequest (`${API_URL}/catalogData.json`) 
-      .then((goods) => {                    
-        this.goods = JSON.parse(goods);          
-      });                                     
+    return makeGETRequest (`${API_URL}/catalogData.json`).then (goods => {
+      this.goods = JSON.parse (goods);
+      this.filteredGoods = JSON.parse (goods);
+    });
   }
-      
-   
+
+  filterGoods (value) {
+    const regexp = new RegExp (value, 'i');
+    this.filteredGoods = this.goods.filter (good =>
+      regexp.test (good.product_name)
+    );
+    this.render ();
+  }
+
   render () {
     let listHtml = '';
-    this.goods.forEach (good => {
-      const goodItem = new GoodsItem (good.product_name, good.price);
+    this.filteredGoods.forEach (good => {
+      const goodItem = new GoodsItem (
+        good.product_name,
+        good.price,
+        good.id_product
+      );
       listHtml += goodItem.render ();
     });
     document.querySelector ('.products').innerHTML = listHtml;
@@ -67,10 +79,16 @@ class GoodsList {
 //================================================================
 
 const list = new GoodsList ();
-list.fetchGoods ()
-.then((goods) =>  list.render ())           
-.then(() =>  console.log (list.calcSum ()))   
+list
+  .fetchGoods ()
+  .then (goods => list.render ())
+  .then (() => console.log (list.calcSum ()));
 
+const searchInput = document.querySelector ('.goods-search');
+searchInput.addEventListener ('input', ({target}) => {
+  const {value} = target;
+  list.filterGoods (value);
+});
 
 //================================================================
 
@@ -78,12 +96,11 @@ class Cart extends GoodsList {
   constructor () {
     super ();
     list = [];
-    sum = 0;    
+    sum = 0;
   }
-   
 
   adding (goodItem) {
-    CartProduct.addingToCart ()
+    CartProduct.addingToCart ();
     this.sum = this.sum + GoodsItem.price;
     if (this.list.indexOf (goodItem) < 0) {
       this.list.push (goodItem);
