@@ -11,12 +11,12 @@ function makeGETRequest (url) {
     }
    xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
-        resolve (xhr.responseText)
-      }// else reject ('ERROR'); 
+        if (xhr.status === 200) resolve(xhr.responseText)
+      } // else reject ('ERROR'); 
     };
     xhr.open ('GET', url, true);
     xhr.send ();
-  });
+  })
   
 }
 
@@ -42,7 +42,6 @@ class GoodsList {
     return makeGETRequest (`${API_URL}/catalogData.json`) 
       .then((goods) => {                    
         this.goods = JSON.parse(goods);          
-        console.log(this.goods)                  
       });                                     
   }
       
@@ -71,10 +70,6 @@ const list = new GoodsList ();
 list.fetchGoods ()
 .then((goods) =>  list.render ())           
 .then(() =>  console.log (list.calcSum ()))   
-//.then(list.calcSum ());
-//list.render ();
-//console.log (list.calcSum ());
-
 
 
 //================================================================
@@ -82,15 +77,10 @@ list.fetchGoods ()
 class Cart extends GoodsList {
   constructor () {
     super ();
-     if (Cart._instance) {          
-      return Cart._instance;        
-    }
-    Cart._instance = this;
+    list = [];
+    sum = 0;    
   }
-  
-
-  list = [];
-  sum = 0;
+   
 
   adding (goodItem) {
     CartProduct.addingToCart ()
