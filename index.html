@@ -8,18 +8,24 @@
   <body>
     <div id="app">
       <header class="header">
-        <input type="text" class="goods-search" />
-        <button class="search-button btn" type="button">Искать</button>
-        <button class="btn" type="button">Корзина</button>
+        <input type="text" v-model="searchline" class="goods-search" />
+        <button class="search-button btn" @click="filterGoods" type="button">Искать</button>
+        <button class="btn" @click="showCart = !showCart" type="button">Корзина</button>
       </header>
       <main>
-        <div class="products"></div>
-
-        <!-- <div class="lesson4">
-           <h1>Ррегулярки</h1>
-          <p id="text">
-          <button class="replace" type="button">Заменить кавычки</button> 
-        </div> -->
+        <div class="products">
+          <div class="product-item" v-for="good in filteredGoods">
+            <h3>{{ good.product_name }}</h3>
+            <p>{{ good.price }}</p>
+          </div>
+          <transition name="fade">
+            <div v-if="showCart" class="Cart">
+              <h2>Корзина</h2>
+            </div>
+          </transition>
+          
+        </div>
+        
       </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
