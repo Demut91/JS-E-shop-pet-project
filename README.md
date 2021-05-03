@@ -1,1 +1,1 @@
-# JS2
+# JavaScript pet project
