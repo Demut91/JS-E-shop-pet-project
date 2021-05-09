@@ -12,23 +12,18 @@
         <button class="search-button btn" @click="filterGoods" type="button">Искать</button>
         <button class="btn" @click="showCart = !showCart" type="button">Корзина</button>
       </header>
-      <main>
-        <div class="products">
-          <div class="product-item" v-for="good in filteredGoods">
-            <h3>{{ good.product_name }}</h3>
-            <p>{{ good.price }}</p>
-          </div>
-          <transition name="fade">
-            <div v-if="showCart" class="Cart">
-              <h2>Корзина</h2>
-            </div>
-          </transition>
-          
+      <goodslist :goods="filteredGoods"></goodslist>
+      
+      <transition name="fade">
+        <div v-if="showCart" class="cart">
+          <h2 class="item-title">Корзина</h2>
         </div>
-        
-      </main>
+      </transition>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="components.js"></script>
     <script src="main.js"></script>
+    
   </body>
 </html>
