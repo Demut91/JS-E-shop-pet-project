@@ -1,23 +1,53 @@
 const API_URL =
   'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-function makeGETRequest (url) {
-  return new Promise ((resolve, reject) => {
-    let xhr;
-    if (window.XMLHttpRequest) {
-      xhr = new XMLHttpRequest ();
-    } else if (window.ActiveXObject) {
-      xhr = new ActiveXObject ('Microsoft.XMLHTTP');
-    }
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) resolve (xhr.responseText);
-      } // else reject ('ERROR');
-    };
-    xhr.open ('GET', url, true);
-    xhr.send ();
-  });
-}
+const app = new Vue ({
+  el: '#app',
+  data: {
+    goods: [],
+    filteredGoods: [],
+    searchline: '',
+    showCart: false,
+  },
+
+  mounted () {
+    this.makeGETRequest (`${API_URL}/catalogData.json`, goods => {
+      this.goods = goods;
+      this.filteredGoods = goods;
+      this.goods = JSON.parse (goods);
+      this.filteredGoods = JSON.parse (goods);
+    });
+  },
+
+  methods: {
+    makeGETRequest (url, callback) {
+      let xhr;
+      if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest ();
+      } else if (window.ActiveXObject) {
+        xhr = new ActiveXObject ('Microsoft.XMLHTTP');
+      }
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) callback (xhr.responseText);
+        }
+      };
+
+      xhr.open ('GET', url, true);
+      xhr.send ();
+    },
+
+    filterGoods () {
+      const regexp = new RegExp (this.searchline, 'i');
+      this.filteredGoods = this.goods.filter (good =>
+        regexp.test (good.product_name)
+      );
+      //this.render ();
+      
+      
+    },
+  },
+});
 
 class GoodsItem {
   constructor (product_name, price, id_product) {
@@ -40,10 +70,10 @@ class GoodsList {
   }
 
   fetchGoods () {
-    return makeGETRequest (`${API_URL}/catalogData.json`).then (goods => {
-      this.goods = JSON.parse (goods);
-      this.filteredGoods = JSON.parse (goods);
-    });
+    // return makeGETRequest (`${API_URL}/catalogData.json`).then (goods => {
+    //   this.goods = JSON.parse (goods);
+    //   this.filteredGoods = JSON.parse (goods);
+    // });
   }
 
   filterGoods (value) {
@@ -51,20 +81,20 @@ class GoodsList {
     this.filteredGoods = this.goods.filter (good =>
       regexp.test (good.product_name)
     );
-    this.render ();
+    // this.render ();
   }
 
   render () {
-    let listHtml = '';
-    this.filteredGoods.forEach (good => {
-      const goodItem = new GoodsItem (
-        good.product_name,
-        good.price,
-        good.id_product
-      );
-      listHtml += goodItem.render ();
-    });
-    document.querySelector ('.products').innerHTML = listHtml;
+    // let listHtml = '';
+    // this.filteredGoods.forEach (good => {
+    //   const goodItem = new GoodsItem (
+    //     good.product_name,
+    //     good.price,
+    //     good.id_product
+    //   );
+    //   listHtml += goodItem.render ();
+    // });
+    // document.querySelector ('.products').innerHTML = listHtml;
   }
 
   calcSum () {

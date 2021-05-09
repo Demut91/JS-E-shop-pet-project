@@ -61,6 +61,20 @@ body {
   text-align: center;
   vertical-align: middle;
 }
+.Cart {
+  border: 1px solid rgb(5, 117, 2);
+  width: 75%;
+  margin: 30px;
+  padding: 20px;
+  
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to  {
+  opacity: 0;
+}
+
 /* .lesson4 {
   padding: 20px;
 } */
