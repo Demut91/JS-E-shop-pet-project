@@ -8,17 +8,15 @@
   <body>
     <div id="app">
       <header class="header">
-        <input type="text" v-model="searchline" class="goods-search" />
-        <button class="search-button btn" @click="filterGoods" type="button">Искать</button>
-        <button class="btn" @click="showCart = !showCart" type="button">Корзина</button>
+        <search v-model="searchline" @otfiltrovat="filterGoods"></search>    
+
+        
+        <!-- <button class="btn" @click="showCart = !showCart" type="button">Корзина</button> -->
       </header>
-      <goodslist :goods="filteredGoods"></goodslist>
+
+      <goodslist :tovary="filteredGoods"></goodslist>
       
-      <transition name="fade">
-        <div v-if="showCart" class="cart">
-          <h2 class="item-title">Корзина</h2>
-        </div>
-      </transition>
+      <cart></cart>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
@@ -27,3 +25,4 @@
     
   </body>
 </html>
+ 
