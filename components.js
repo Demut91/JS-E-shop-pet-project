@@ -50,7 +50,7 @@ Vue.component ('cart', {
   template: `
         <div>
             <div :class="['cart', { 'cart--active': showCart }]">
-                <h2>Корзина</h2>
+                <h2 class="item-title">Корзина</h2>
             </div>
             <button class="btn" @click="showing" type="button">Корзина</button>
         </div>
