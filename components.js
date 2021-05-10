@@ -25,9 +25,9 @@ Vue.component ('goodsitem', {
 });
 
 Vue.component ('search', {
-    name: 'search',
-    props: ['searchline'],
-    template: `
+  name: 'search',
+  props: ['searchline'],
+  template: `
         <div>
             <input :value="searchline" @input="$emit('input', $event.target.value)" type="text" class="goods-search" />
             <button @click="$emit('otfiltrovat')" class="search-button btn" type="button">Искать</button>
@@ -36,23 +36,23 @@ Vue.component ('search', {
 });
 
 Vue.component ('cart', {
-    name: 'cart',
-    props: ['goods'],
-    data: () => ({
-       showCart: true,
-    }),
+  name: 'cart',
+  props: ['goods'],
+  data: () => ({
+    showCart: false,
+  }),
 
-    methods: {
-       showing() {
-           this.showCart = !showCart;
-       }
+  methods: {
+    showing () {
+      this.showCart = !this.showCart;
     },
-    template: `
-        <div class="cart">
-            <h2 class="item-title">Корзина</h2>
+  },
+  template: `
+        <div>
+            <div :class="['cart', { 'cart--active': showCart }]">
+                <h2>Корзина</h2>
+            </div>
             <button class="btn" @click="showing" type="button">Корзина</button>
-                
         </div>
-        
     `,
-})
+});

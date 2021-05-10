@@ -8,21 +8,17 @@
   <body>
     <div id="app">
       <header class="header">
-        <search v-model="searchline" @otfiltrovat="filterGoods"></search>    
-
+        <search v-model="searchline" @otfiltrovat="filterGoods"></search>
+        <cart></cart>
         
-        <!-- <button class="btn" @click="showCart = !showCart" type="button">Корзина</button> -->
+
       </header>
 
       <goodslist :tovary="filteredGoods"></goodslist>
-      
-      <cart></cart>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
     <script src="components.js"></script>
     <script src="main.js"></script>
-    
   </body>
 </html>
- 

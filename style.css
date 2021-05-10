@@ -1,5 +1,6 @@
 body {
   margin: 0 auto;
+  min-width: 580px;
 }
 .header {
   display: flex;
@@ -12,7 +13,7 @@ body {
   font-size: 18px;
   color: #212121;
   background-color: #ffffff;
-  width: 120px; 
+  width: 120px;
   height: 45px;
   text-align: center;
   border-radius: 22px;
@@ -46,7 +47,7 @@ body {
   min-height: 200px;
   min-width: 200px;
   border: 2px solid rgb(5, 117, 2);
- }
+}
 
 .item-title {
   text-transform: uppercase;
@@ -66,12 +67,24 @@ body {
   width: 80%;
   margin: 20px;
   padding: 20px;
-  
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+
+.cart--active {
+  display: block;
 }
-.fade-enter, .fade-leave-to  {
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 .nodata {
@@ -80,4 +93,3 @@ body {
   font-size: 50px;
   text-transform: uppercase;
 }
-
