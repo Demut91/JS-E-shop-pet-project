@@ -1,10 +1,13 @@
 const express = require ('express');
-const fs = require ('fs');
-const bodyParser = require ('body-parser');
 const app = express ();
+
+const fs = require ('fs');
+
+
+
 var cors = require ('cors');
 app.use (cors ());
-app.use (bodyParser.json ());
+
 
 app.listen (3000, () => {
   console.log ('server is running on port 3000!');
@@ -28,3 +31,6 @@ app.post ('/addToCart', (req, res) => {
     });
   });
 });
+
+const bodyParser = require ('body-parser');
+app.use (bodyParser.json ());

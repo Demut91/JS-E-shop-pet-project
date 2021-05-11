@@ -47,6 +47,7 @@ body {
   min-height: 200px;
   min-width: 200px;
   border: 2px solid rgb(5, 117, 2);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 .item-title {

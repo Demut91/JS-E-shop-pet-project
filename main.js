@@ -7,7 +7,7 @@ const app = new Vue ({
     goods: [],
     filteredGoods: [],
     searchline: '',
-    showCart: false,
+    cart: [],
   }),
 
   mounted () {
@@ -55,7 +55,18 @@ const app = new Vue ({
   
       xhr.send(data);
     },
-  
+
+    addingToCart (good) {
+      this.makePOSTRequest(`${API_URL}/addToCart`, JSON.stringify(good), () => {
+        console.log('added')
+      })
+    },
+
+    deletingFromCart (good) {
+      this.makePOSTRequest(`${API_URL}/deleteFromCart`, JSON.stringify(good), () => {
+        console.log(good.id_product + 'deleted')
+      })
+    },
 
     filterGoods () {
       const regexp = new RegExp (this.searchline, 'i');

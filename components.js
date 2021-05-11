@@ -1,11 +1,11 @@
 Vue.component ('goodslist', {
   name: 'goodslist',
-  props: ['tovary'],
+  props: ['tovary', 'addToCart'],
   template: `
     <main> 
         <div v-if="tovary.length !== 0" class="products">
             <div v-for="good in tovary"> 
-                <goodsitem :odinTovar="good" ></goodsitem>
+                <goodsitem @dobavlenie="addToCart" :odinTovar="good" ></goodsitem>
             </div>
         </div>
         <div v-else class="nodata">Не найдено</div>
@@ -19,7 +19,8 @@ Vue.component ('goodsitem', {
   template: `
         <div class="product-item">
             <h3 class="item-title">{{ odinTovar.product_name }}</h3>
-            <p> {{ odinTovar.price }}</p>
+            <p>Цена: {{ odinTovar.price }} рублей</p>
+            <button @click="$emit('dobavlenie', odinTovar)" class="buy-btn" > {{ odinTovar.id_product }} В корзину</button>
         </div>
   `,
 });
@@ -34,6 +35,8 @@ Vue.component ('search', {
         </div>
     `,
 });
+
+// 
 
 Vue.component ('cart', {
   name: 'cart',
