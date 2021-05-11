@@ -3,11 +3,11 @@ const app = express ();
 
 const fs = require ('fs');
 
-
+const bodyParser = require ('body-parser');
+app.use (bodyParser.json ());
 
 var cors = require ('cors');
 app.use (cors ());
-
 
 app.listen (3000, () => {
   console.log ('server is running on port 3000!');
@@ -22,15 +22,13 @@ app.get ('/catalogData', (req, res) => {
 });
 
 app.post ('/addToCart', (req, res) => {
-  fs.readFile ('cart.json', 'utf8', (err, data) => {
+  fs.readFile ('./database/cart.json', 'utf8', (err, data) => {
     const cart = JSON.parse (data);
     const item = req.body;
     cart.push (item);
-    fs.writeFile ('cart.json', JSON.stringify (cart), err => {
-      console.log ('done');
+    fs.writeFile ('./database/cart.json', JSON.stringify (cart), err => {
+      console.log (cart);
     });
   });
 });
 
-const bodyParser = require ('body-parser');
-app.use (bodyParser.json ());
