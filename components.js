@@ -1,11 +1,11 @@
 Vue.component ('goodslist', {
   name: 'goodslist',
-  props: ['tovary', 'addToCart'],
+  props: ['tovary', 'dobavlenie'],
   template: `
     <main> 
         <div v-if="tovary.length !== 0" class="products">
             <div v-for="good in tovary"> 
-                <goodsitem @dobavlenie="addToCart" :odinTovar="good" ></goodsitem>
+                <goodsitem @dobavlenie="dobavlenie" :odinTovar="good" ></goodsitem>
             </div>
         </div>
         <div v-else class="nodata">Не найдено</div>
@@ -53,7 +53,8 @@ Vue.component ('cart', {
   template: `
         <div>
             <div :class="['cart', { 'cart--active': showCart }]">
-                <h2 class="item-title">Корзина</h2>
+                <h2 class="item-title">Корзина</h2><br>
+                <div class="product-item"></div>
             </div>
             <button class="btn" @click="showing" type="button">Корзина</button>
         </div>

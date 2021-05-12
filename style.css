@@ -62,7 +62,14 @@ body {
   line-height: 20px;
   text-align: center;
   vertical-align: middle;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  border: none;
 }
+
+.buy-btn:active {
+  box-shadow: none;
+}
+
 .cart {
   border: 2px solid rgb(5, 117, 2);
   width: 500px;
@@ -80,14 +87,6 @@ body {
   display: block;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
 .nodata {
   padding: 20px;
   color: rgb(5, 117, 2);
