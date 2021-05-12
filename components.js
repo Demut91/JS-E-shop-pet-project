@@ -7,11 +7,12 @@ Vue.component ('goodslist', {
             <div v-for="good in tovary"> 
                 <goodsitem @dobavlenie="dobavlenie" :odinTovar="good" ></goodsitem>
             </div>
-        </div>
+            </div>
         <div v-else class="nodata">Не найдено</div>
     </main>
   `,
 });
+
 
 Vue.component ('goodsitem', {
   name: 'goodsitem',
@@ -20,7 +21,7 @@ Vue.component ('goodsitem', {
         <div class="product-item">
             <h3 class="item-title">{{ odinTovar.product_name }}</h3>
             <p>Цена: {{ odinTovar.price }} рублей</p>
-            <button @click="$emit('dobavlenie', odinTovar)" class="buy-btn" > {{ odinTovar.id_product }} В корзину</button>
+            <button @click="$emit('dobavlenie', odinTovar)" class="buy-btn" >В корзину</button>
         </div>
   `,
 });
@@ -36,11 +37,9 @@ Vue.component ('search', {
     `,
 });
 
-// 
-
 Vue.component ('cart', {
   name: 'cart',
-  props: ['goods'],
+  props: ['basket', 'receivingcart'],
   data: () => ({
     showCart: false,
   }),
@@ -51,12 +50,29 @@ Vue.component ('cart', {
     },
   },
   template: `
-        <div>
-            <div :class="['cart', { 'cart--active': showCart }]">
-                <h2 class="item-title">Корзина</h2><br>
-                <div class="product-item"></div>
-            </div>
-            <button class="btn" @click="showing" type="button">Корзина</button>
+    <div class="cartWrapper">
+      <button class="btn" @click="showing" type="button">Корзина</button>
+        <div :class="['cart', { 'cart--active': showCart }]">        
+          <button @click="$emit('receivingcart')" type="button">получить</button>
+            <h2 class="item-title">Корзина</h2>
+                <div class="cartProducts">
+                  <div v-for="good in basket" class="cartProducts-itemWrapper">
+                    <cart-product :good="good" />
+                  </div>
+                </div>        
         </div>
-    `,
+    </div>
+  `,
 });
+
+Vue.component ('cart-product', {
+  name: 'cart-product',
+  props: ['good'],
+  template: `
+      <div class="cartProducts-item">
+          <h4 class="item-title">{{ good.product_name }}</h4>
+          <p> {{ good.price }} p.</p>          
+      </div>
+  `,
+});
+

@@ -32,3 +32,8 @@ app.post ('/addToCart', (req, res) => {
   });
 });
 
+app.get('/cartData', (req, res) => {
+  fs.readFile('./database/cart.json', 'utf8', (err, data) => {
+    res.send (data);
+  });
+});

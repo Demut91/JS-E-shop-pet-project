@@ -9,18 +9,19 @@
     <div id="app">
       <header class="header">
         <search v-model="searchline" @otfiltrovat="filterGoods"></search>
-        <cart></cart>       
-
+        <cart :basket="basket" @receivingcart="receivingCart"></cart>
       </header>
 
       <goodslist :tovary="filteredGoods" :dobavlenie="addingToCart"></goodslist>
+
+      <footer class="header">
+        <h3 class="item-title">&copy;All rights reserved</h3>
+      </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-    <script src="main.js"></script>
     <script src="components.js"></script>
+    <script src="main.js"></script>
   </body>
+  
 </html>
-<!-- 
-
- -->
