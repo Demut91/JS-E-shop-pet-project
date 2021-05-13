@@ -37,3 +37,15 @@ app.get('/cartData', (req, res) => {
     res.send (data);
   });
 });
+
+app.post ('/deleteFromCart', (req, res) => {
+  fs.readFile ('./database/cart.json', 'utf8', (err, data) => {
+    let cart = JSON.parse(data);
+    const item = req.body;
+    cart = cart.filter((good) => good.id_product !== item.id_product);
+    
+    fs.writeFile ('./database/cart.json', JSON.stringify (cart), err => {
+      console.log (cart);
+    });
+  });
+});

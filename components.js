@@ -39,7 +39,7 @@ Vue.component ('search', {
 
 Vue.component ('cart', {
   name: 'cart',
-  props: ['basket', 'receivingcart'],
+  props: ['basket', 'receivingcart', 'udalenie'],
   data: () => ({
     showCart: false,
   }),
@@ -53,11 +53,11 @@ Vue.component ('cart', {
     <div class="cartWrapper">
       <button class="btn" @click="showing" type="button">Корзина</button>
         <div :class="['cart', { 'cart--active': showCart }]">        
-          <button @click="$emit('receivingcart')" type="button">получить</button>
+          <button @click="$emit('receivingcart')" type="button" class="buy-btn">Обновить</button>
             <h2 class="item-title">Корзина</h2>
                 <div class="cartProducts">
                   <div v-for="good in basket" class="cartProducts-itemWrapper">
-                    <cart-product :good="good" />
+                    <cart-product @udalenie11="udalenie" :good="good" />
                   </div>
                 </div>        
         </div>
@@ -70,8 +70,10 @@ Vue.component ('cart-product', {
   props: ['good'],
   template: `
       <div class="cartProducts-item">
-          <h4 class="item-title">{{ good.product_name }}</h4>
-          <p> {{ good.price }} p.</p>          
+          <h4>{{ good.product_name }} - {{ good.price }} p.</h4> 
+            <div class="box-for-button"> 
+              <button @click="$emit('udalenie11', good)" class="buy-btn">Удалить</button>   
+            </div>       
       </div>
   `,
 });

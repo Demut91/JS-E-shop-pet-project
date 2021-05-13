@@ -58,20 +58,20 @@ const app = new Vue ({
     },
 
     addingToCart (good) {
-      this.makePOSTRequest (`${API_URL}/addToCart`, JSON.stringify (good), () => {
-          this.receivingCart ();
+      this.makePOSTRequest (`${API_URL}/addToCart`, JSON.stringify(good), () => {
+        this.receivingCart ();
       });
     },
 
     deletingFromCart (good) {
       this.makePOSTRequest(`${API_URL}/deleteFromCart`, JSON.stringify(good), () => {
-        console.log(good.id_product + 'deleted')
+      this.receivingCart ();
       });
     },
 
     receivingCart () {
       this.makeGETRequest (`${API_URL}/cartData`, goods => {
-        this.basket = JSON.parse (goods);
+        this.basket = JSON.parse(goods);
       });
     },
 

@@ -9,7 +9,7 @@
     <div id="app">
       <header class="header">
         <search v-model="searchline" @otfiltrovat="filterGoods"></search>
-        <cart :basket="basket" @receivingcart="receivingCart"></cart>
+        <cart :udalenie="deletingFromCart" :basket="basket" @receivingcart="receivingCart"></cart>
       </header>
 
       <goodslist :tovary="filteredGoods" :dobavlenie="addingToCart"></goodslist>
