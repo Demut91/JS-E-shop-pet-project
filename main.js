@@ -1,5 +1,4 @@
-const API_URL =
-  'http://127.0.0.1:3000';
+const API_URL = 'http://127.0.0.1:3000';
 
 const app = new Vue ({
   el: '#app',
@@ -7,7 +6,7 @@ const app = new Vue ({
     goods: [],
     filteredGoods: [],
     searchline: '',
-    cart: [],
+    basket: [],
   }),
 
   mounted () {
@@ -15,6 +14,8 @@ const app = new Vue ({
       this.goods = JSON.parse (goods);
       this.filteredGoods = JSON.parse (goods);
     });
+    this.receivingCart();
+     
   },
 
   methods: {
@@ -35,42 +36,42 @@ const app = new Vue ({
       xhr.send ();
     },
 
-    makePOSTRequest(url, data, callback) {
+    makePOSTRequest (url, data, callback) {
       let xhr;
-  
+
       if (window.XMLHttpRequest) {
-        xhr = new XMLHttpRequest();
-      } else if (window.ActiveXObject) { 
-        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        xhr = new XMLHttpRequest ();
+      } else if (window.ActiveXObject) {
+        xhr = new ActiveXObject ('Microsoft.XMLHTTP');
       }
-  
+
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-          callback(xhr.responseText);
+          callback (xhr.responseText);
         }
-      }
-  
-      xhr.open('POST', url, true);
-      xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-  
-      xhr.send(data);
+      };
+
+      xhr.open ('POST', url, true);
+      xhr.setRequestHeader ('Content-Type', 'application/json; charset=UTF-8');
+
+      xhr.send (data);
     },
 
     addingToCart (good) {
-      this.makePOSTRequest(`${API_URL}/addToCart`, JSON.stringify(good), () => {
-      console.log('added');
-      })
+      this.makePOSTRequest (`${API_URL}/addToCart`, JSON.stringify(good), () => {
+        this.receivingCart ();
+      });
     },
 
     deletingFromCart (good) {
       this.makePOSTRequest(`${API_URL}/deleteFromCart`, JSON.stringify(good), () => {
-        console.log(good.id_product + 'deleted')
-      })
+      this.receivingCart ();
+      });
     },
 
-    receivingCart() {
-      this.makeGETRequest(`${API_URL}/cartData`, (goods) => {
-        this.cart = JSON.parse(goods);
+    receivingCart () {
+      this.makeGETRequest (`${API_URL}/cartData`, goods => {
+        this.basket = JSON.parse(goods);
       });
     },
 
@@ -78,8 +79,7 @@ const app = new Vue ({
       const regexp = new RegExp (this.searchline, 'i');
       this.filteredGoods = this.goods.filter (good =>
         regexp.test (good.product_name)
-      );          
-      
+      );
     },
   },
 });
@@ -104,32 +104,32 @@ const app = new Vue ({
 //     this.filteredGoods = [];
 //   }
 
-  // fetchGoods () {
-  //   // return makeGETRequest (`${API_URL}/catalogData.json`).then (goods => {
-  //   //   this.goods = JSON.parse (goods);
-  //   //   this.filteredGoods = JSON.parse (goods);
-  //   // });
-  // }
+// fetchGoods () {
+//   // return makeGETRequest (`${API_URL}/catalogData.json`).then (goods => {
+//   //   this.goods = JSON.parse (goods);
+//   //   this.filteredGoods = JSON.parse (goods);
+//   // });
+// }
 
-  // filterGoods (value) {
-  //   const regexp = new RegExp (value, 'i');
-  //   this.filteredGoods = this.goods.filter (good =>
-  //     regexp.test (good.product_name)
-  //   );
-  //   // this.render ();
-  // }
+// filterGoods (value) {
+//   const regexp = new RegExp (value, 'i');
+//   this.filteredGoods = this.goods.filter (good =>
+//     regexp.test (good.product_name)
+//   );
+//   // this.render ();
+// }
 
-  // render () {
-    // let listHtml = '';
-    // this.filteredGoods.forEach (good => {
-    //   const goodItem = new GoodsItem (
-    //     good.product_name,
-    //     good.price,
-    //     good.id_product
-    //   );
-    //   listHtml += goodItem.render ();
-    // });
-    // document.querySelector ('.products').innerHTML = listHtml;
+// render () {
+// let listHtml = '';
+// this.filteredGoods.forEach (good => {
+//   const goodItem = new GoodsItem (
+//     good.product_name,
+//     good.price,
+//     good.id_product
+//   );
+//   listHtml += goodItem.render ();
+// });
+// document.querySelector ('.products').innerHTML = listHtml;
 //   }
 
 //   calcSum () {
